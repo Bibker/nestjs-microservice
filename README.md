@@ -1,1 +1,1 @@
-# Admin Part of the App
+# This is a microservice architecture.
