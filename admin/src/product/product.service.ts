@@ -14,7 +14,7 @@ export class ProductService {
   }
 
   async getOneProduct(id: number): Promise<Product> {
-    return this.productRepository.findOne({});
+    return this.productRepository.findOne({where:{id}});
   }
 
   async createProduct(data): Promise<Product> {
@@ -22,7 +22,7 @@ export class ProductService {
   }
 
   async updateProduct(id: number, data): Promise<any> {
-    return this.productRepository.update(id, data);
+    return this.productRepository.update({id}, data);
   }
 
   async deleteProduct(id: number): Promise<any> {
