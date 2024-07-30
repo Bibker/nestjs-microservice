@@ -1,10 +1,14 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Controller, Get, Param, Post } from '@nestjs/common';
 import { ProductService } from './product.service';
 import { EventPattern } from '@nestjs/microservices';
+import { HttpService } from '@nestjs/axios';
 
 @Controller('products')
 export class ProductController {
-  constructor(private productService: ProductService) {}
+  constructor(
+    private productService: ProductService,
+    private httpService:HttpService
+  ) {}
 
   @Get()
   async getAllProducts() {
@@ -14,6 +18,19 @@ export class ProductController {
   @Get(':id')
   async getOneProduct(@Param('id') id: number) {
     return await this.productService.getOneProduct(id);
+  }
+
+  @Post(':id/like')
+  async likeProduct(@Param('id') id: number) {
+    const product = await this.productService.getOneProduct(id);
+
+    this.httpService.post(`http://localhost:5000/api/products/${id}/like`,{}).subscribe(res=>{
+      console.log(res);
+    })
+    const likes= 
+    this.productService.updateProduct(id, {
+      likes:Number.parseInt(product.likes) + 1,
+    });
   }
 
   @EventPattern('product_created')

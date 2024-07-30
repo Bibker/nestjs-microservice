@@ -15,7 +15,7 @@ export class ProductService {
   }
 
   async getOneProduct(id:number):Promise<Product>{
-    return this.productModel.findOne({id}).exec()
+    return this.productModel.findOne({id}).exec();
   }
 
   async createProduct(product:any): Promise<Product> {

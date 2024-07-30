@@ -57,4 +57,12 @@ export class ProductController {
     await this.productService.deleteProduct(id);
     this.client.emit('product_deleted', id);
   }
+
+  @Post(':id/like')
+  async likeProduct(@Param('id') id: number) {
+    const product = await this.productService.getOneProduct(id);
+    this.productService.updateProduct(id, {
+      likes: product.likes + 1,
+    });
+  }
 }
